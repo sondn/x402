@@ -5,6 +5,7 @@ config();
 
 const privateKey = process.env.PAYER_PRIVATE_KEY as Hex | string;
 const baseURL = process.env.SERVER_URL as string;
+const networkName = (process.env.NETWORK_NAME || 'base-sepolia') as string;
 const endpointPath = '/protected-api' as const;
 const publicEndpointPath = '/public-api' as const;
 
@@ -18,7 +19,7 @@ const publicEndpointPath = '/public-api' as const;
  */
 async function main(): Promise<void> {
   // const signer = await createSigner("solana-devnet", privateKey); // uncomment for solana
-  const signer = await createSigner("base-sepolia", privateKey);
+  const signer = await createSigner(networkName, privateKey);
   const fetchWithPayment = wrapFetchWithPayment(fetch, signer, BigInt(1000000));
   
   // protected endpoint

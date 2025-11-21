@@ -1,10 +1,11 @@
 import express from 'express';
-import { paymentMiddleware, Resource, SolanaAddress } from 'x402-express';
+import { paymentMiddleware, Resource, SolanaAddress, Network } from 'x402-express';
 import { config } from 'dotenv';
 config();
 
 const facilitatorUrl = process.env.FACILITATOR_URL as Resource;
 const payTo = process.env.PAY_TO_ADDRESS as `0x${string}` | SolanaAddress;
+const networkName = (process.env.NETWORK_NAME || 'base-sepolia') as Network;
 
 if (!facilitatorUrl || !payTo) {
   console.error("Missing required environment variables");
@@ -22,7 +23,7 @@ app.use(
     {
       '/protected-api': {
         price: '$0.01', // USD amount (convert to USDC)
-        network: 'base-sepolia',
+        network: networkName,
       },
     },
     {
